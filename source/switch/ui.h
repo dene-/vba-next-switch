@@ -20,7 +20,7 @@ typedef enum {
 	resultCancelSettings
 } UIResult;
 
-typedef enum { stateRunning, stateFileselect, statePaused, stateSettings, stateRemapButtons, stateCheats } UIState;
+typedef enum { stateRunning, stateFileselect, statePaused, stateSettings, stateRemapButtons, stateCheats, stateRecents } UIState;
 
 struct Setting {
 	const char* name;

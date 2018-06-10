@@ -496,7 +496,7 @@ int main(int argc, char *argv[]) {
 	uiAddSetting("Disable analog stick", &disableAnalogStick, 2, stringsNoYes);
 	uiAddSetting("L R -> ZL ZR", &switchRLButtons, 2, stringsNoYes);
 	uiAddSetting("In game clock offset", &rtcOffset, 26, stringsRtcOffset);
-
+	
 	uiFinaliseAndLoadSettings();
 	applyConfig();
 
@@ -752,7 +752,7 @@ int main(int argc, char *argv[]) {
 		frameTimeFrames++;
 
 		if (frameTimeSum >= 1) {
-			printf("avg. frametime %fms\n", 1000.0 * (frameTimeSum / (double)frameTimeFrames));
+			//printf("avg. frametime %fms\n", 1000.0 * (frameTimeSum / (double)frameTimeFrames));
 
 			frameTimeSum = 0;
 			frameTimeFrames = 0;

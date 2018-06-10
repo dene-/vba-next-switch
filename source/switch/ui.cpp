@@ -76,6 +76,9 @@ static int lastDst = 80;
 static int splashTime = 240;
 static u32 splashEnabled = 1;
 
+char* _recentGames;
+std::vector<std::string> recentGames;
+
 static void generateSettingString(Setting* setting) {
 	if (!setting->meta) {
 		snprintf(setting->generatedString, sizeof(setting->generatedString) - 1, "%s: %s", setting->name,
@@ -120,7 +123,7 @@ void uiInit() {
 	uiAddSetting("Enable splash screen", &splashEnabled, 2, stringsNoYes);
 	uiAddSetting("Theme", &themeM, 3, themeOptions);
 
-	uiPushState(stateFileselect);
+	uiPushState(stateRecents);
 }
 
 void uiDeinit() {
@@ -146,8 +149,30 @@ void uiFinaliseAndLoadSettings() {
 			if (ini_sget(cfg, "misc", settings[i].name, "%d", settings[i].valueIdx)) generateSettingString(&settings[i]);
 		}
 
+		if (ini_sget(cfg, "misc", "Recents", NULL, &_recentGames)) recentGames = split(std::string(_recentGames), '?');
+
 		ini_free(cfg);
 	}
+}
+
+void insertRecentGame(std::string game) {
+    auto it = std::find(recentGames.begin(), recentGames.end(), game);
+    if (it != recentGames.end()) {
+        //Game was already on recents, hence we put it to the first recent game again
+        recentGames.erase(it);
+        recentGames.insert(recentGames.begin(), game);;
+    } else {
+        //Game wasn't on the recent list, hence we add it
+        recentGames.emplace(recentGames.begin(), game);
+        if (recentGames.size() > 10) recentGames.pop_back();
+    }
+}
+
+const char* getCurrentRecentGames() {
+    std::string temp = "";
+    for (auto i : recentGames) 
+        temp += i + "?";
+    return temp.c_str();
 }
 
 void uiSaveSettings() {
@@ -156,6 +181,8 @@ void uiSaveSettings() {
 		fprintf(f, "[Misc]\n");
 
 		for (int i = 0; i < settingsMetaStart; i++) fprintf(f, "%s=%d\n", settings[i].name, *settings[i].valueIdx);
+
+		fprintf(f, "%s=\"%s\"\n", "Recents", getCurrentRecentGames());
 
 		fclose(f);
 	}
@@ -167,6 +194,10 @@ void uiCancelSettings() {
 		for (int i = 0; i < settingsMetaStart; i++) {
 			if (ini_sget(cfg, "misc", settings[i].name, "%d", settings[i].valueIdx)) generateSettingString(&settings[i]);
 		}
+
+		ini_sget(cfg, "misc", "Recents", "%s", &_recentGames);
+
+		recentGames = split(std::string(_recentGames), '?');
 
 		ini_free(cfg);
 	}
@@ -207,6 +238,9 @@ void uiDraw(u32 keysDown) {
 	} else if (state == statePaused) {
 		menu = pauseMenuItems;
 		menuItemsCount = sizeof(pauseMenuItems) / sizeof(pauseMenuItems[0]);
+	} else if (state == stateRecents) {
+		menu = (const char**)recentGames.data();
+		menuItemsCount = recentGames.size();
 	} else {
 		menu = (const char**)filenames;
 		menuItemsCount = filenamesCount;
@@ -339,6 +373,8 @@ UIResult uiLoop(u32 keysDown) {
 					enterDirectory();
 				} else {
 					strcpy_safe(selectedPath, path, PATH_LENGTH);
+					insertRecentGame(std::string(selectedPath));
+					uiSaveSettings();
 					return resultSelectedFile;
 				}
 			} else if (state == stateSettings) {

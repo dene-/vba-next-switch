@@ -10,7 +10,12 @@ void addString(char* filenameBuffer, char** filenames, int* filenamesCount, char
 bool isDirectory(char* path);
 void getDirectoryContents(char* filenameBuffer, char** filenames, int* filenamesCount, const char* directory, const char* extensionFilter);
 
+#include <iterator>
+#include <iostream>
+#include <algorithm>
 #include <string.h>
+#include <string>
+#include <sstream> 
 
 /*
     Usually I don't write comments to explain my functions, but since is a "safe" function,
@@ -34,5 +39,7 @@ void getDirectoryContents(char* filenameBuffer, char** filenames, int* filenames
 
 */
 void strcpy_safe(char* dst, const char* src, unsigned dst_length);
+
+std::vector<std::string> split(const std::string &s, char delim);
 
 #endif

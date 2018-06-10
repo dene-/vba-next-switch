@@ -1,7 +1,5 @@
-#include <algorithm>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <sys/dirent.h>
 
 #include "util.h"
@@ -73,4 +71,14 @@ void strcpy_safe(char* dst, const char* src, unsigned src_length) {
 		i++;
 	}
 	dst[i] = '\0';
+}
+
+std::vector<std::string> split(const std::string &s, char delim) {
+    std::stringstream ss(s);
+    std::string item;
+    std::vector<std::string> tokens;
+    while (std::getline(ss, item, delim)) {
+        tokens.push_back(item);
+    }
+    return tokens;
 }
