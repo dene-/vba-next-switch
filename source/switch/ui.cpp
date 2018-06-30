@@ -205,6 +205,10 @@ void uiCancelSettings() {
 
 void uiGetSelectedFile(char* out, int outLength) { strcpy_safe(out, selectedPath, outLength); }
 
+u32 resp(float size) {
+	return currentFBHeight == 720 ?  (u32)size : (u32)floor(size * 1080 / 720);
+}
+
 void uiDraw(u32 keysDown) {
 	UIState state = uiGetState();
 
