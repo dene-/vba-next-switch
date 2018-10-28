@@ -59,7 +59,8 @@ static int uiStateStackCount = 0;
 
 static int rowsVisible = 0;
 
-static Image gbaImage, logoSmall;
+static SDL_Texture* gbaImage = nullptr;
+static SDL_Texture* logoSmall = nullptr;
 
 static u32 btnMargin = 0;
 
@@ -99,6 +100,8 @@ static void enterDirectory() {
 	scroll = 0;
 }
 
+static SDL_Texture* s_logo;
+
 void uiInit() {
 	if (!SDLH_Init())
     {
@@ -113,10 +116,10 @@ void uiInit() {
 
 	settings = (Setting*)malloc(SETTINGS_MAX * sizeof(Setting));
 
-	//themeInit();
+	themeInit();
 
-	//imageLoad(&gbaImage, "romfs:/gba.png");
-	//imageLoad(&logoSmall, "romfs:/logoSmall.png");
+    SDLH_LoadImage(&s_logo, "romfs:/logoSmall.png");
+	SDLH_LoadImage(&gbaImage, "romfs:/gba.png");
 
 	setsysGetColorSetId(&switchColorSetID);
 
@@ -178,6 +181,12 @@ void uiCancelSettings() {
 
 void uiGetSelectedFile(char* out, int outLength) { strcpy_safe(out, selectedPath, outLength); }
 
+#include <switch.h>
+#include <sys/stat.h>
+#include <utility>
+#include <dirent.h>
+#include <unistd.h>
+
 void uiDraw(u32 keysDown) {
 	UIState state = uiGetState();
 
@@ -220,9 +229,7 @@ void uiDraw(u32 keysDown) {
 
 	SDLH_DrawRect(0, 0, currentFBWidth, currentFBHeight, currentTheme.backgroundColor);
 
-	SDLH_DrawText(20, 50, 50, FC_MakeColor(255, 255, 255, 255), "Hello from the GPU!");
-
-	//imageDraw(&logoSmall, 52, 15);
+	SDLH_DrawImage(s_logo, 52, 15);
 
 	int i = 0;
 	int separator = 40;
@@ -279,9 +286,9 @@ void uiDraw(u32 keysDown) {
 
 	struct tm* timeStruct = getRealLocalTime();
 
-	SDLH_DrawText(16, currentFBWidth - 115, 35, currentTheme.textColor, "Time");
+	//SDLH_DrawText(16, currentFBWidth - 115, 35, currentTheme.textColor, DateTime::timeStr().c_str());
 
-	SDLH_DrawRect((u32)((currentFBWidth - 1220) / 2), currentFBHeight - 73, 1220, 1, FC_MakeColor(45, 45, 45, 255));
+	SDLH_DrawRect((u32)((currentFBWidth - 1220) / 2), currentFBHeight - 73, 1220, 1, currentTheme.textColor);
 
 	// UI Buttom Bar Buttons Drawing routines
 	switch (state) {
@@ -312,7 +319,8 @@ void uiDraw(u32 keysDown) {
 	}
 
 	if (splashTime > 0) {
-		//if (splashEnabled) imageDraw(&currentTheme.splashImage, 0, 0, splashTime <= 120 ? splashTime * 255 / 120 : 255);
+		//if (splashEnabled) SDLH_DrawImage(&currentTheme.splashImage, 0, 0, splashTime <= 120 ? splashTime * 255 / 120 : 255);
+		//SDLH_DrawImage()
 		splashTime -= 5;
 	}
 
@@ -481,19 +489,19 @@ void uiDrawTipButton(buttonType type, u32 pos, const char* text) {
 
 	switch (type) {
 		case buttonA:
-			//imageDraw(&currentTheme.btnA, x, y);
+			SDLH_DrawImage(currentTheme.btnA, x, y);
 			SDLH_DrawText(16, x + 25 + 13, currentFBHeight - 73 + h, currentTheme.textColor, text);
 			break;
 		case buttonB:
-			//imageDraw(&currentTheme.btnB, x, y);
+			SDLH_DrawImage(currentTheme.btnB, x, y);
 			SDLH_DrawText(16, x + 25 + 13, currentFBHeight - 73 + h, currentTheme.textColor, text);
 			break;
 		case buttonY:
-			//imageDraw(&currentTheme.btnY, x, y);
+			SDLH_DrawImage(currentTheme.btnY, x, y);
 			SDLH_DrawText(16, x + 25 + 13, currentFBHeight - 73 + h, currentTheme.textColor, text);
 			break;
 		case buttonX:
-			//imageDraw(&currentTheme.btnX, x, y);
+			SDLH_DrawImage(currentTheme.btnX, x, y);
 			SDLH_DrawText(16, x + 25 + 13, currentFBHeight - 73 + h, currentTheme.textColor, text);
 			break;
 		default:

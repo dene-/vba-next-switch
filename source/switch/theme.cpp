@@ -1,33 +1,42 @@
 #include "theme.h"
 
-static Image btnADark, btnALight, btnBDark, btnBLight, btnXDark, btnXLight, btnYDark, btnYLight, splashWhite, splashBlack;
+static SDL_Texture* btnADark;
+static SDL_Texture* btnALight;
+static SDL_Texture* btnBDark;
+static SDL_Texture* btnBLight;
+static SDL_Texture* btnXDark;
+static SDL_Texture* btnXLight;
+static SDL_Texture* btnYDark;
+static SDL_Texture* btnYLight;
+static SDL_Texture* splashWhite;
+static SDL_Texture* splashBlack;
 
 void themeInit() {
-	imageLoad(&btnADark, "romfs:/btnADark.png");
-	imageLoad(&btnALight, "romfs:/btnALight.png");
-	imageLoad(&btnBDark, "romfs:/btnBDark.png");
-	imageLoad(&btnBLight, "romfs:/btnBLight.png");
-	imageLoad(&btnXDark, "romfs:/btnXDark.png");
-	imageLoad(&btnXLight, "romfs:/btnXLight.png");
-	imageLoad(&btnYDark, "romfs:/btnYDark.png");
-	imageLoad(&btnYLight, "romfs:/btnYLight.png");
+	SDLH_LoadImage(&btnADark, "romfs:/btnADark.png");
+	SDLH_LoadImage(&btnALight, "romfs:/btnALight.png");
+	SDLH_LoadImage(&btnBDark, "romfs:/btnBDark.png");
+	SDLH_LoadImage(&btnBLight, "romfs:/btnBLight.png");
+	SDLH_LoadImage(&btnXDark, "romfs:/btnXDark.png");
+	SDLH_LoadImage(&btnXLight, "romfs:/btnXLight.png");
+	SDLH_LoadImage(&btnYDark, "romfs:/btnYDark.png");
+	SDLH_LoadImage(&btnYLight, "romfs:/btnYLight.png");
 
-	imageLoad(&splashWhite, "romfs:/splashWhite.png");
-	imageLoad(&splashBlack, "romfs:/splashBlack.png");
+	SDLH_LoadImage(&splashWhite, "romfs:/splashWhite.png");
+	SDLH_LoadImage(&splashBlack, "romfs:/splashBlack.png");
 }
 
 void themeDeinit() {
-	imageDeinit(&splashWhite);
-	imageDeinit(&splashBlack);
+	SDL_DestroyTexture(splashWhite);
+	SDL_DestroyTexture(splashBlack);
 
-	imageDeinit(&btnADark);
-	imageDeinit(&btnALight);
-	imageDeinit(&btnBDark);
-	imageDeinit(&btnBLight);
-	imageDeinit(&btnXDark);
-	imageDeinit(&btnXLight);
-	imageDeinit(&btnYDark);
-	imageDeinit(&btnYLight);
+	SDL_DestroyTexture(btnADark);
+	SDL_DestroyTexture(btnALight);
+	SDL_DestroyTexture(btnBDark);
+	SDL_DestroyTexture(btnBLight);
+	SDL_DestroyTexture(btnXDark);
+	SDL_DestroyTexture(btnXLight);
+	SDL_DestroyTexture(btnYDark);
+	SDL_DestroyTexture(btnYLight);
 }
 
 void themeSet(themeMode_t t) {

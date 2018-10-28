@@ -530,7 +530,7 @@ int main(int argc, char *argv[]) {
 #endif
 
 		currentFB = gfxGetFramebuffer(&currentFBWidth, &currentFBHeight);
-		memset(currentFB, 0, 4 * currentFBWidth * currentFBHeight);
+		//memset(currentFB, 0, 4 * currentFBWidth * currentFBHeight);
 
 		hidScanInput();
 		u32 keysDown = hidKeysDown(CONTROLLER_P1_AUTO);

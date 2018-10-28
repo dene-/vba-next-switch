@@ -28,11 +28,11 @@ typedef struct {
 	SDL_Color keyboardOKKeyTextColor;
 	SDL_Color keyboardOKKeyBackgroundColor;
 	SDL_Color keyboardHighlightColor;
-	Image btnA;
-	Image btnB;
-	Image btnX;
-	Image btnY;
-	Image splashImage;
+	SDL_Texture* btnA;
+	SDL_Texture* btnB;
+	SDL_Texture* btnX;
+	SDL_Texture* btnY;
+	SDL_Texture* splashImage;
 } theme_t;
 
 typedef enum {

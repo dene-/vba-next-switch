@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="531a6eee-89cd-4b1d-9637-1d3ade28eeee" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/source/switch/SDL_Helper.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/source/switch/SDL_Helper.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/switch/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/source/switch/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/switch/theme.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/source/switch/theme.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/switch/theme.h" beforeDir="false" afterPath="$PROJECT_DIR$/source/switch/theme.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/switch/ui.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/source/switch/ui.cpp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,12 +25,13 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="Makefile" value="1" />
-          <entry key="cpp" value="1" />
+          <entry key="cpp" value="2" />
+          <entry key="hpp" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="C++" value="1" />
+          <entry key="C++" value="3" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
@@ -51,11 +56,16 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/switch/SDL_Helper.hpp">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/source/switch/main.cpp">
+        <entry file="file://$PROJECT_DIR$/source/switch/SDL_Helper.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="281">
-              <caret line="421" column="106" selection-start-line="421" selection-start-column="106" selection-end-line="421" selection-end-column="106" />
+            <state relative-caret-position="41">
+              <caret line="49" column="5" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -141,23 +151,24 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1540731051914</updated>
-      <workItem from="1540731052995" duration="1055000" />
+      <workItem from="1540731052995" duration="2392000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1055000" />
+    <option name="totallyTimeSpent" value="2392000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1066" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16216215" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16216215" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" />
-      <window_info active="true" anchor="bottom" id="Terminal" visible="true" weight="0.32939914" />
+      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.32939914" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -179,15 +190,25 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/source/switch/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="412" lean-forward="true" selection-start-line="412" selection-end-line="412" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Makefile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-396" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/switch/main.cpp">
+    <entry file="file://$PROJECT_DIR$/source/switch/SDL_Helper.hpp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/switch/SDL_Helper.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="421" column="106" selection-start-line="421" selection-start-column="106" selection-end-line="421" selection-end-column="106" />
+        <state relative-caret-position="41">
+          <caret line="49" column="5" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
         </state>
       </provider>
     </entry>

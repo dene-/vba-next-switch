@@ -2,9 +2,6 @@
 
 static SDL_Window* s_window;
 static SDL_Renderer* s_renderer;
-static SDL_Texture* s_star;
-static SDL_Texture* s_checkbox;
-static SDL_Texture* s_flag;
 // static Mix_Music* s_click;
 
 static PlFontData fontData, fontExtData;
@@ -51,7 +48,6 @@ bool SDLH_Init(void)
         fprintf(stderr, "IMG_Init: %s\n", IMG_GetError());
         return false;
     }
-    //SDLH_LoadImage(&s_flag, "romfs:/flag.png");
     //SDLH_LoadImage(&s_star, "romfs:/star.png");
     //SDLH_LoadImage(&s_checkbox, "romfs:/checkbox.png");
 
@@ -80,9 +76,9 @@ void SDLH_Exit(void)
     // Mix_FreeMusic(s_click);
     // Mix_CloseAudio();
     // Mix_Quit();
-    SDL_DestroyTexture(s_flag);
-    SDL_DestroyTexture(s_star);
-    SDL_DestroyTexture(s_checkbox);
+    //SDL_DestroyTexture(s_flag);
+    //SDL_DestroyTexture(s_star);
+    //SDL_DestroyTexture(s_checkbox);
     IMG_Quit();
     SDL_DestroyRenderer(s_renderer);
     SDL_DestroyWindow(s_window);
@@ -181,7 +177,7 @@ void SDLH_GetTextDimensions(int size, const char* text, u32* w, u32* h)
 
 void SDLH_DrawIcon(std::string icon, int x, int y)
 {
-    SDL_Texture* t = nullptr;
+   /* SDL_Texture* t = nullptr;
     if (icon.compare("flag") == 0) {
         t = s_flag;
     } else if (icon.compare("checkbox") == 0) {
@@ -192,7 +188,7 @@ void SDLH_DrawIcon(std::string icon, int x, int y)
 
     if (t != nullptr) {
         SDLH_DrawImage(t, x, y);
-    }
+    }*/
 }
 
 // void SDLH_PlayClick(void)
