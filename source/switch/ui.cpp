@@ -18,8 +18,6 @@ extern "C" {
 #include "localtime.h"
 }
 
-#include "draw.h"
-#include "image.h"
 #include "hbkbd.h"
 
 #include "../system.h"
@@ -102,6 +100,11 @@ static void enterDirectory() {
 }
 
 void uiInit() {
+	if (!SDLH_Init())
+    {
+        return;
+    }
+
 	setupLocalTimeOffset();
 
 	filenameBuffer = (char*)malloc(FILENAMEBUFFER_SIZE);
@@ -110,10 +113,10 @@ void uiInit() {
 
 	settings = (Setting*)malloc(SETTINGS_MAX * sizeof(Setting));
 
-	themeInit();
+	//themeInit();
 
-	imageLoad(&gbaImage, "romfs:/gba.png");
-	imageLoad(&logoSmall, "romfs:/logoSmall.png");
+	//imageLoad(&gbaImage, "romfs:/gba.png");
+	//imageLoad(&logoSmall, "romfs:/logoSmall.png");
 
 	setsysGetColorSetId(&switchColorSetID);
 
@@ -124,13 +127,14 @@ void uiInit() {
 }
 
 void uiDeinit() {
-	themeDeinit();
+	//themeDeinit();
 
-	imageDeinit(&gbaImage);
-	imageDeinit(&logoSmall);
+	//imageDeinit(&gbaImage);
+	//imageDeinit(&logoSmall);
 
 	free(filenameBuffer);
 	free(settings);
+	SDLH_Exit();
 }
 
 void uiFinaliseAndLoadSettings() {
@@ -188,7 +192,7 @@ void uiDraw(u32 keysDown) {
 
 	btnMargin = 0;
 
-	hbkbd::init();
+	//hbkbd::init();
 
 	int scrollAmount = 0;
 	if (keysDown & KEY_DOWN) scrollAmount = 1;
@@ -212,9 +216,13 @@ void uiDraw(u32 keysDown) {
 		menuItemsCount = filenamesCount;
 	}
 
-	drawRect(0, 0, currentFBWidth, currentFBHeight, currentTheme.backgroundColor);
+	//SDLH_ClearScreen(FC_MakeColor(45, 45, 45, 255));
 
-	imageDraw(&logoSmall, 52, 15);
+	SDLH_DrawRect(0, 0, currentFBWidth, currentFBHeight, currentTheme.backgroundColor);
+
+	SDLH_DrawText(20, 50, 50, FC_MakeColor(255, 255, 255, 255), "Hello from the GPU!");
+
+	//imageDraw(&logoSmall, 52, 15);
 
 	int i = 0;
 	int separator = 40;
@@ -244,7 +252,7 @@ void uiDraw(u32 keysDown) {
 
 	for (int j = scroll; j < menuItemsCount; j++) {
 		u32 h, w;
-		getTextDimensions(font16, menu[j], &w, &h);
+		SDLH_GetTextDimensions(font16, menu[j], &w, &h);
 		u32 heightOffset = (40 - h) / 2;
 		u32 textMarginTop = heightOffset + menuMarginTop;
 
@@ -252,17 +260,17 @@ void uiDraw(u32 keysDown) {
 
 		if (i + scroll == cursor) {
 			float dst = i * separator + menuMarginTop;
-			// float delta = (dst - lastDst) / 2.2;
-			// dst = floor(lastDst + delta);
+			float delta = (dst - lastDst) / 2.2;
+			dst = floor(lastDst + delta);
 
-			drawRect(0, (u32)dst, currentFBWidth / 1.25, separator, currentTheme.textActiveBGColor);
+			SDLH_DrawRect(0, (u32)dst, currentFBWidth / 1.25, separator, currentTheme.textActiveBGColor);
 			if (lastDst == dst)
-				drawText(font16, 60, i * separator + textMarginTop, currentTheme.textActiveColor, menu[j]);
+				SDLH_DrawText(16, 60, i * separator + textMarginTop, currentTheme.textActiveColor, menu[j]);
 			else
-				drawText(font16, 60, i * separator + textMarginTop, currentTheme.textColor, menu[j]);
+				SDLH_DrawText(16, 60, i * separator + textMarginTop, currentTheme.textColor, menu[j]);
 			lastDst = dst;
 		} else {
-			drawText(font16, 60, i * separator + textMarginTop, currentTheme.textColor, menu[j]);
+			SDLH_DrawText(16, 60, i * separator + textMarginTop, currentTheme.textColor, menu[j]);
 		}
 
 		i++;
@@ -271,14 +279,14 @@ void uiDraw(u32 keysDown) {
 
 	struct tm* timeStruct = getRealLocalTime();
 
-	drawText(font16, currentFBWidth - 115, 35, currentTheme.textColor, "%02i:%02i", timeStruct->tm_hour, timeStruct->tm_min);
+	SDLH_DrawText(16, currentFBWidth - 115, 35, currentTheme.textColor, "Time");
 
-	drawRect((u32)((currentFBWidth - 1220) / 2), currentFBHeight - 73, 1220, 1, currentTheme.textColor);
+	SDLH_DrawRect((u32)((currentFBWidth - 1220) / 2), currentFBHeight - 73, 1220, 1, FC_MakeColor(45, 45, 45, 255));
 
 	// UI Buttom Bar Buttons Drawing routines
 	switch (state) {
 		case stateFileselect:
-			drawText(font16, 60, currentFBHeight - 43, currentTheme.textColor, currentDirectory);
+			SDLH_DrawText(16, 60, currentFBHeight - 43, currentTheme.textColor, currentDirectory);
 			uiDrawTipButton(buttonB, 1, "Back");
 			uiDrawTipButton(buttonA, 2, "Open");
 			uiDrawTipButton(buttonX, 3, "Exit VBA Next");
@@ -304,9 +312,11 @@ void uiDraw(u32 keysDown) {
 	}
 
 	if (splashTime > 0) {
-		if (splashEnabled) imageDraw(&currentTheme.splashImage, 0, 0, splashTime <= 120 ? splashTime * 255 / 120 : 255);
+		//if (splashEnabled) imageDraw(&currentTheme.splashImage, 0, 0, splashTime <= 120 ? splashTime * 255 / 120 : 255);
 		splashTime -= 5;
 	}
+
+	SDLH_Render();
 }
 
 UIResult uiLoop(u32 keysDown) {
@@ -410,7 +420,7 @@ UIResult uiLoop(u32 keysDown) {
 
 	if (statusMessageFadeout > 0) {
 		int fadeout = statusMessageFadeout > 255 ? 255 : statusMessageFadeout;
-		drawText(font16, 60, currentFBHeight - 43, MakeColor(58, 225, 208, fadeout), statusMessage);
+		SDLH_DrawText(16, 60, currentFBHeight - 43, FC_MakeColor(58, 225, 208, fadeout), statusMessage);
 		statusMessageFadeout -= 10;
 	}
 
@@ -461,7 +471,7 @@ void uiAddSetting(const char* name, u32* valueIdx, u32 valuesCount, const char* 
 
 void uiDrawTipButton(buttonType type, u32 pos, const char* text) {
 	u32 h, w;
-	getTextDimensions(font16, text, &w, &h);
+	SDLH_GetTextDimensions(16, text, &w, &h);
 	h = (73 - h) / 2;
 
 	w += 25 + 13;
@@ -471,20 +481,20 @@ void uiDrawTipButton(buttonType type, u32 pos, const char* text) {
 
 	switch (type) {
 		case buttonA:
-			imageDraw(&currentTheme.btnA, x, y);
-			drawText(font16, x + 25 + 13, currentFBHeight - 73 + h, currentTheme.textColor, text);
+			//imageDraw(&currentTheme.btnA, x, y);
+			SDLH_DrawText(16, x + 25 + 13, currentFBHeight - 73 + h, currentTheme.textColor, text);
 			break;
 		case buttonB:
-			imageDraw(&currentTheme.btnB, x, y);
-			drawText(font16, x + 25 + 13, currentFBHeight - 73 + h, currentTheme.textColor, text);
+			//imageDraw(&currentTheme.btnB, x, y);
+			SDLH_DrawText(16, x + 25 + 13, currentFBHeight - 73 + h, currentTheme.textColor, text);
 			break;
 		case buttonY:
-			imageDraw(&currentTheme.btnY, x, y);
-			drawText(font16, x + 25 + 13, currentFBHeight - 73 + h, currentTheme.textColor, text);
+			//imageDraw(&currentTheme.btnY, x, y);
+			SDLH_DrawText(16, x + 25 + 13, currentFBHeight - 73 + h, currentTheme.textColor, text);
 			break;
 		case buttonX:
-			imageDraw(&currentTheme.btnX, x, y);
-			drawText(font16, x + 25 + 13, currentFBHeight - 73 + h, currentTheme.textColor, text);
+			//imageDraw(&currentTheme.btnX, x, y);
+			SDLH_DrawText(16, x + 25 + 13, currentFBHeight - 73 + h, currentTheme.textColor, text);
 			break;
 		default:
 			break;

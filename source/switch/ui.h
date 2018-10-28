@@ -2,6 +2,7 @@
 #define __UI_H__
 
 #include "theme.h"
+#include "SDL_Helper.hpp"
 
 typedef enum {
 	resultSelectedFile,

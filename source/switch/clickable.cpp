@@ -62,20 +62,20 @@ void Clickable::draw(void)
     getTextDimensions(font24, mText.c_str(), &textw, &texth);
     const u32 messageWidth = mCentered ? textw : mw - 8;
     bool hld = held();
-    const color_t bgColor = hld ? mColorText : mColorBg;
-    const color_t msgColor = hld ? mColorBg : mColorText;
+    const SDL_Color bgColor = hld ? mColorText : mColorBg;
+    const SDL_Color msgColor = hld ? mColorBg : mColorText;
     
-    drawRect(mx, my, mw, mh, bgColor);
-    drawText(font24, mx + (mw - messageWidth)/2, my + (mh - texth)/2, msgColor, mText.c_str());	
+    //drawRect(mx, my, mw, mh, bgColor);
+    //drawText(font24, mx + (mw - messageWidth)/2, my + (mh - texth)/2, msgColor, mText.c_str());	
 }
 
 void Clickable::draw(float font)
 {
-    u32 textw, texth, dotlen;
+    /*u32 textw, texth, dotlen;
     getTextDimensions(font, mText.c_str(), &textw, &texth);
     getTextDimensions(font, "...", &dotlen, NULL);
     const u32 messageWidth = mCentered ? textw : mw - 8;
     
     drawRect(mx, my, mw, mh, mColorBg);
-    drawTextTruncate(font, mx + (mw - messageWidth)/2, my + (mh - texth)/2, mColorText, mw - 4*2 - 40 - dotlen, "...", mText.c_str());
+    drawTextTruncate(font, mx + (mw - messageWidth)/2, my + (mh - texth)/2, mColorText, mw - 4*2 - 40 - dotlen, "...", mText.c_str());*/
 }

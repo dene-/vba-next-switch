@@ -274,18 +274,18 @@ std::string hbkbd::keyboard(const std::string& suggestion) {
 
 		currentFB = gfxGetFramebuffer(&currentFBWidth, NULL);
 
-		drawRect(0, 0, 1280, 270, COLOR_GREY_DARK);
+		SDLH_DrawRect(0, 0, 1280, 270, COLOR_GREY_DARK);
 
-		drawRect(marginlr, 140, 1280 - marginlr * 2, 84, COLOR_GREY_MEDIUM);		  // Text input background
-		drawRect(0, starty - margintb, 1280, 450, currentTheme.keyboardBackgroundColor);  // Keyboard background
+		SDLH_DrawRect(marginlr, 140, 1280 - marginlr * 2, 84, COLOR_GREY_MEDIUM);		  // Text input background
+		SDLH_DrawRect(0, starty - margintb, 1280, 450, currentTheme.keyboardBackgroundColor);  // Keyboard background
 
 		u32 texth;
 		getTextDimensions(font24, " ", NULL, &texth);
 		if (str.empty()) {
-			drawText(font24, marginlr * 2, 140 + (84 - texth) / 2, COLOR_GREY_LIGHT,
+			SDLH_DrawText(24, marginlr * 2, 140 + (84 - texth) / 2, COLOR_GREY_LIGHT,
 				 suggestion.c_str());  // Text input placeholder
 		} else {
-			drawText(font24, marginlr * 2, 140 + (84 - texth) / 2, COLOR_WHITE, str.c_str());  // Text input value
+			SDLH_DrawText(24, marginlr * 2, 140 + (84 - texth) / 2, COLOR_WHITE, str.c_str());  // Text input value
 		}
 
 		for (size_t i = 0, sz = buttons.size(); i < sz; i++) {
@@ -311,9 +311,9 @@ std::string hbkbd::keyboard(const std::string& suggestion) {
 		uiDrawTipButton(buttonB, 1, "Cancel");
 		uiDrawTipButton(buttonA, 2, "Enter");
 
-		gfxFlushBuffers();
-		gfxSwapBuffers();
-		gfxWaitForVsync();
+		//gfxFlushBuffers();
+		//gfxSwapBuffers();
+		//gfxWaitForVsync();
 	}
 
 	return suggestion;

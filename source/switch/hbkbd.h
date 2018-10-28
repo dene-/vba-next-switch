@@ -43,7 +43,7 @@
 
 class HbkbdButton : public Clickable {
        public:
-	HbkbdButton(u32 x, u32 y, u16 w, u16 h, color_t colorBg, color_t colorText, const std::string& message, bool centered)
+	HbkbdButton(u32 x, u32 y, u16 w, u16 h, SDL_Color colorBg, SDL_Color colorText, const std::string& message, bool centered)
 	    : Clickable(x, y, w, h, colorBg, colorText, message, centered) {
 		mSelected = false;
 	}
@@ -54,12 +54,12 @@ class HbkbdButton : public Clickable {
 		Clickable::draw();
 		// outline
 		if (mSelected) {
-			color_t color = currentTheme.keyboardHighlightColor;
+			SDL_Color color = currentTheme.keyboardHighlightColor;
 			static const size_t size = 4;
-			drawRect(mx - size, my - size, mw + 2 * size, size, color);  // top
-			drawRect(mx - size, my, size, mh, color);		     // left
-			drawRect(mx + mw, my, size, mh, color);			     // right
-			drawRect(mx - size, my + mh, mw + 2 * size, size, color);    // bottom
+			SDLH_DrawRect(mx - size, my - size, mw + 2 * size, size, color);  // top
+			SDLH_DrawRect(mx - size, my, size, mh, color);		     // left
+			SDLH_DrawRect(mx + mw, my, size, mh, color);			     // right
+			SDLH_DrawRect(mx - size, my + mh, mw + 2 * size, size, color);    // bottom
 		}
 	}
 

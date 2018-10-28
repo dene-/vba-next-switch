@@ -419,7 +419,7 @@ void threadFunc(void *args) {
 
 		double endTime = (double)svcGetSystemTick() * SECONDS_PER_TICKS;
 
-		if (!(inputTransferKeysHeld & buttonMap[10])) condvarWaitTimeout(&requestFrameCond, TARGET_FRAMETIME_us);
+		if (!(inputTransferKeysHeld & buttonMap[10])) condvarWaitTimeout(&requestFrameCond, &emulationLock, TARGET_FRAMETIME_us);
 	}
 
 	mutexLock(&emulationLock);
@@ -469,13 +469,14 @@ int main(int argc, char *argv[]) {
 
 	romfsInit();
 
-	gfxInitDefault();
+	//gfxInitDefault();
 
 	setsysInitialize();
 
 	plInitialize();
-	textInit();
-	fontInit();
+	nsInitialize();
+	//textInit();
+	//fontInit();
 	timeInitialize();
 	cheatListInit();
 
@@ -509,7 +510,7 @@ int main(int argc, char *argv[]) {
 	mutexInit(&emulationLock);
 
 	mutexInit(&requestFrameLock);
-	condvarInit(&requestFrameCond, &requestFrameLock);
+	condvarInit(&requestFrameCond);
 
 	Thread mainThread;
 	threadCreate(&mainThread, threadFunc, NULL, 0x4000, 0x30, 1);
@@ -764,9 +765,9 @@ int main(int argc, char *argv[]) {
 		}
 #endif
 
-		gfxFlushBuffers();
-		gfxSwapBuffers();
-		gfxWaitForVsync();
+		//gfxFlushBuffers();
+		//gfxSwapBuffers();
+		//gfxWaitForVsync();
 	}
 
 	threadWaitForExit(&mainThread);
@@ -786,9 +787,10 @@ int main(int argc, char *argv[]) {
 
 	free(audioTransferBuffer);
 
-	fontExit();
+	//fontExit();
 
-	gfxExit();
+	//gfxExit();
+	nsExit();
 	plExit();
 
 	timeExit();

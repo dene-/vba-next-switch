@@ -12,7 +12,9 @@
         "type_traits": "cpp",
         "iosfwd": "cpp",
         "cmath": "cpp",
-        "locale": "cpp"
+        "locale": "cpp",
+        "list": "c",
+        "xhash": "c"
     },
 
     "clang.completion.enable": true,
